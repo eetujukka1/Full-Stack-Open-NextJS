@@ -9,7 +9,7 @@ const Blogs = async ({
     const { filter } = await searchParams
     const search = filter?.trim() ?? ""
     const searchLower = search.toLowerCase()
-    const blogs = [...getBlogs()]
+    const blogs = [...await getBlogs()]
         .filter((blog) => {
             if (!searchLower) {
                 return true
