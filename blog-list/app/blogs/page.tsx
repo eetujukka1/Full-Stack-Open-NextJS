@@ -1,5 +1,5 @@
 import { getBlogs } from "../services/blogs"
-import Link from "next/link";
+import BlogList from "../components/bloglist"
 
 const Blogs = async ({
     searchParams,
@@ -29,15 +29,7 @@ const Blogs = async ({
                 </label>
                 <button type="submit">Search</button>
             </form>
-            <ul>
-                {blogs.map(blog => (
-                    <li key={blog.id}>
-                        <Link href={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
-                        ({blog.likes} likes)
-                    </li>
-                ))}
-            </ul>
-            {blogs.length === 0 && <p>No blogs found</p>}
+            <BlogList blogs={blogs} />
         </div>
     )
 }

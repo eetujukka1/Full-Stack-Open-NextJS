@@ -12,13 +12,15 @@ export const addBlog = async (
     url: string,
     likes: number,
 ) => {
-    await db.insert(blogs).values({ title, author, url, likes })
+    // ToDo: Remove the placeholder userId
+    await db.insert(blogs).values({ title, author, url, likes, userId: 1 })
 }
 
 export const getBlogById = (id: number) => {
     return db.query.blogs.findFirst({
         where: eq(blogs.id, id),
-    })}
+    })
+}
 
 export const like = async (id: number) => {
     const blog = await getBlogById(id)
