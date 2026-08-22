@@ -11,19 +11,34 @@ const NewBlog = () => {
                 <div>
                     <label>
                         Title
-                        <input type="text" name="title" required />
+                        <input
+                            type="text"
+                            name="title"
+                            required
+                            defaultValue={state.values?.title}
+                        />
                     </label>
                 </div>
                 <div>
                     <label>
                         Author
-                        <input type="text" name="author" required />
+                        <input
+                            type="text"
+                            name="author"
+                            required
+                            defaultValue={state.values?.author}
+                        />
                     </label>
                 </div>
                 <div>
                     <label>
                         URL
-                        <input type="text" name="url" required />
+                        <input
+                            type="text"
+                            name="url"
+                            required
+                            defaultValue={state.values?.url}
+                        />
                     </label>
                 </div>
                 <button type="submit">Create</button>
