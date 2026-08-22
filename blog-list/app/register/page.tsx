@@ -8,6 +8,11 @@ import Button from "@/app/components/button"
 
 export default function RegisterPage() {
     const [state, formAction] = useActionState(registerUser, { error: "" })
+    const errorTestId = state.error.toLowerCase().includes("username")
+        ? "username-error"
+        : state.error.toLowerCase().includes("confirmation")
+          ? "passwordConfirm-error"
+          : "form-error"
 
     return (
         <div>
@@ -43,7 +48,7 @@ export default function RegisterPage() {
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700">
-                        Confirm password
+                        Confirm Password
                         <FormInput
                             type="password"
                             name="passwordConfirm"
@@ -51,8 +56,12 @@ export default function RegisterPage() {
                         />
                     </label>
                 </div>
-                <Button type="submit">Register</Button>
-                {state.error && <p className="text-red-600">{state.error}</p>}
+                <Button type="submit" data-testid="register-button">Register</Button>
+                {state.error && (
+                    <p className="text-red-600" data-testid={errorTestId}>
+                        {state.error}
+                    </p>
+                )}
             </form>
         </div>
     )

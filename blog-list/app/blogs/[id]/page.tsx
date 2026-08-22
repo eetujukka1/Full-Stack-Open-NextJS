@@ -18,10 +18,12 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     const canAddToReadingList = currentUser && currentUser.id !== blog.user.id
 
     return (
-        <div className="max-w-2xl">
-            <PageTitle>{blog.title}</PageTitle>
+        <div className="max-w-2xl" data-testid="blog-detail">
+            <div data-testid="blog-title">
+                <PageTitle>{blog.title}</PageTitle>
+            </div>
             <div className="space-y-4">
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-sm font-medium text-gray-600" data-testid="blog-author">
                     by {blog.author}
                 </p>
                 <Link className="break-words text-blue-600 hover:underline" href={blog.url}>
@@ -35,7 +37,9 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             {canAddToReadingList &&
                 <form className="mt-3" action={addBlogToCurrentUserReadingList}>
                     <input type="hidden" name="id" value={blog.id} />
-                    <Button type="submit">Add to reading list</Button>
+                    <Button type="submit" data-testid="add-to-reading-list-button">
+                        Add to reading list
+                    </Button>
                 </form>
             }
         </div>

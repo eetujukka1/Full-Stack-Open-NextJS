@@ -28,9 +28,14 @@ const Blogs = async ({
             <form className="mx-auto mb-6 flex max-w-md items-end gap-2" action="/blogs">
                 <label className="flex-1 text-sm font-medium text-gray-700">
                     Search
-                    <FormInput type="text" name="filter" defaultValue={search} />
+                    <FormInput
+                        type="text"
+                        name="filter"
+                        defaultValue={search}
+                        data-testid="filter-input"
+                    />
                 </label>
-                <Button type="submit">Search</Button>
+                <Button type="submit" data-testid="search-button">Search</Button>
             </form>
             <BlogList blogs={blogs} />
         </div>

@@ -20,25 +20,35 @@ const MePage = async () => {
         <div className="max-w-2xl space-y-6">
             <PageTitle>My account</PageTitle>
 
-            <dl className="space-y-3">
+            <dl className="space-y-3" data-testid="user-profile">
                 <div>
                     <dt className="text-sm font-medium text-gray-700">Name</dt>
-                    <dd>{user.name}</dd>
+                    <dd data-testid="user-name">{user.name}</dd>
                 </div>
                 <div>
                     <dt className="text-sm font-medium text-gray-700">Username</dt>
-                    <dd>{user.username}</dd>
+                    <dd data-testid="user-username">{user.username}</dd>
                 </div>
             </dl>
 
-            {readingListItems.length > 0 && (
-                <section className="space-y-3">
-                    <h2 className="text-lg font-semibold">Reading list</h2>
+            <section className="space-y-3" data-testid="reading-list-section">
+                <h2 className="text-lg font-semibold">Reading list</h2>
+                {readingListItems.length === 0 ? (
+                    <p className="text-gray-700" data-testid="empty-reading-list">
+                        Your reading list is empty.
+                    </p>
+                ) : (
+                    <>
                     {unreadReadingListItems.length > 0 && (
-                        <div className="space-y-2">
+                        <div className="space-y-2" data-testid="unread-section">
                             <h3 className="text-base font-medium">Unread</h3>
                             <ReadingListBlogItems items={unreadReadingListItems} showMarkAsRead />
                         </div>
+                    )}
+                    {unreadReadingListItems.length === 0 && (
+                        <p className="text-gray-700" data-testid="no-unread-blogs">
+                            No unread blogs.
+                        </p>
                     )}
                     {readReadingListItems.length > 0 && (
                         <div className="space-y-2">
@@ -46,23 +56,29 @@ const MePage = async () => {
                             <ReadingListBlogItems items={readReadingListItems} />
                         </div>
                     )}
-                </section>
-            )}
+                    </>
+                )}
+            </section>
 
-            <section className="space-y-3">
+            <section className="space-y-3" data-testid="api-token-section">
                 <h2 className="text-lg font-semibold">Personal API token</h2>
                 {user.token ? (
-                    <p className="break-all rounded border border-gray-200 bg-gray-50 p-3 font-mono text-sm text-gray-900">
-                        {user.token}
-                    </p>
+                    <div
+                        className="break-all rounded border border-gray-200 bg-gray-50 p-3 font-mono text-sm text-gray-900"
+                        data-testid="token-display"
+                    >
+                        <code data-testid="api-token">{user.token}</code>
+                    </div>
                 ) : (
-                    <p className="text-gray-700">
+                    <p className="text-gray-700" data-testid="no-token-message">
                         No token has been generated yet.
                     </p>
                 )}
 
                 <form action={generatePersonalToken}>
-                    <Button type="submit">Generate new token</Button>
+                    <Button type="submit" data-testid="generate-token-button">
+                        Generate new token
+                    </Button>
                 </form>
             </section>
         </div>

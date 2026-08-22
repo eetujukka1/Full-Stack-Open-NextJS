@@ -24,7 +24,9 @@ export const ReadingListBlogItem = ({ id, blog, showMarkAsRead = false }: Readin
             {showMarkAsRead && (
                 <form action={markCurrentUserReadingListItemAsRead}>
                     <input type="hidden" name="id" value={id} />
-                    <Button type="submit">Mark as read</Button>
+                    <Button type="submit" data-testid={`mark-read-${id}`}>
+                        Mark as read
+                    </Button>
                 </form>
             )}
         </div>

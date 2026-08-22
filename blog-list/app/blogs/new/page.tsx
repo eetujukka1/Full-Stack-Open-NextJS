@@ -59,7 +59,7 @@ const NewBlog = () => {
                         />
                     </label>
                 </div>
-                <Button type="submit">Create</Button>
+                <Button type="submit" data-testid="create-blog-button">Create</Button>
                 {state.error && <p className="text-red-600">{state.error}</p>}
             </form>
         </div>
