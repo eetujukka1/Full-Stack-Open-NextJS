@@ -1,10 +1,13 @@
 "use server"
 
+import { randomUUID } from "crypto"
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import bcrypt from "bcryptjs"
 import { eq } from "drizzle-orm"
 import { db } from "@/db"
 import { users } from "@/db/schema"
+import { getCurrentUser } from "@/app/services/session"
 
 type RegisterUserValues = {
     username: string
@@ -56,4 +59,19 @@ export const registerUser = async (
     await db.insert(users).values({ username, name, passwordHash })
 
     redirect("/login")
+}
+
+export const generatePersonalToken = async () => {
+    const currentUser = await getCurrentUser()
+
+    if (!currentUser) {
+        redirect("/login")
+    }
+
+    await db
+        .update(users)
+        .set({ token: randomUUID() })
+        .where(eq(users.id, currentUser.id))
+
+    revalidatePath("/me")
 }
