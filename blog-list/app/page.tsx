@@ -1,11 +1,9 @@
-import PageTitle from "@/app/components/pagetitle"
+import HomeContent from "@/app/content/home.mdx"
 
 const Home = () => {
   return (
-      <div>
-        <div>
-          <PageTitle>Blog list - home</PageTitle>
-        </div>
+      <div className="markdown max-w-3xl">
+        <HomeContent />
       </div>
   )
 }

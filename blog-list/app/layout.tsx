@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
   <html lang="en">
-      <body className="bg-white font-sans text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
+      <body className="bg-white font-sans text-gray-900">
       <AuthSessionProvider>
           <NotificationProvider>
               <Navbar />
