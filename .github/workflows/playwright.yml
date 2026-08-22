@@ -10,6 +10,9 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: blog-list
 
     steps:
       - uses: actions/checkout@v4
@@ -57,5 +60,5 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-report/
+          path: blog-list/playwright-report/
           retention-days: 30
