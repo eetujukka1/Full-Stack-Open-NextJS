@@ -2,14 +2,19 @@ import { redirect } from "next/navigation"
 import { generatePersonalToken } from "@/app/actions/users"
 import Button from "@/app/components/button"
 import PageTitle from "@/app/components/pagetitle"
-import { getCurrentUser } from "@/app/services/session"
+import {getCurrentUserWithReadingList} from "@/app/services/session"
+import { ReadingListBlogItems } from "@/app/me/reading-list-item"
 
 const MePage = async () => {
-    const user = await getCurrentUser()
+    const user = await getCurrentUserWithReadingList()
 
     if (!user) {
         redirect("/login")
     }
+
+    const readingListItems = user.readingList?.items ?? []
+    const unreadReadingListItems = readingListItems.filter((item) => !item.read)
+    const readReadingListItems = readingListItems.filter((item) => item.read)
 
     return (
         <div className="max-w-2xl space-y-6">
@@ -25,6 +30,24 @@ const MePage = async () => {
                     <dd>{user.username}</dd>
                 </div>
             </dl>
+
+            {readingListItems.length > 0 && (
+                <section className="space-y-3">
+                    <h2 className="text-lg font-semibold">Reading list</h2>
+                    {unreadReadingListItems.length > 0 && (
+                        <div className="space-y-2">
+                            <h3 className="text-base font-medium">Unread</h3>
+                            <ReadingListBlogItems items={unreadReadingListItems} showMarkAsRead />
+                        </div>
+                    )}
+                    {readReadingListItems.length > 0 && (
+                        <div className="space-y-2">
+                            <h3 className="text-base font-medium">Read</h3>
+                            <ReadingListBlogItems items={readReadingListItems} />
+                        </div>
+                    )}
+                </section>
+            )}
 
             <section className="space-y-3">
                 <h2 className="text-lg font-semibold">Personal API token</h2>

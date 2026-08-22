@@ -1,1 +1,1 @@
-ALTER TABLE "users" ADD COLUMN "token" text;a
+ALTER TABLE "users" ADD COLUMN "token" text;

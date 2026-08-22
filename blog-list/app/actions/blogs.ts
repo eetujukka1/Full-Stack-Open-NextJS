@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import {addBlog, like} from "../services/blogs"
+import {addBlog, addBlogToReadingList, like, markReadingListItemAsRead} from "../services/blogs"
 import {auth} from "@/auth";
 
 type BlogFormValues = {
@@ -67,4 +67,17 @@ export const likeBlog = async (formData: FormData) => {
     await like(id)
     revalidatePath(`/blogs/${id}`)
     revalidatePath("/blogs")
+}
+
+export const addBlogToCurrentUserReadingList = async (formData: FormData) => {
+    const id = Number(formData.get("id"))
+    await addBlogToReadingList(id)
+    revalidatePath(`/blogs/${id}`)
+    revalidatePath('/me')
+}
+
+export const markCurrentUserReadingListItemAsRead = async (formData: FormData) => {
+    const id = Number(formData.get("id"))
+    await markReadingListItemAsRead(id)
+    revalidatePath("/me")
 }

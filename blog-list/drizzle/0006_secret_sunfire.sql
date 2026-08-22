@@ -1,0 +1,1 @@
+ALTER TABLE "readingListItems" ADD COLUMN "read" boolean DEFAULT false NOT NULL;
