@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation"
-import { getBlogById } from "../../services/blogs"
-import Link from "next/link";
-import {likeBlog} from "@/app/actions/blogs";
-import {getUserByUsername, getUserWithBlogs} from "@/app/services/users";
+import {getUserWithBlogs} from "@/app/services/users";
 import BlogList from "@/app/components/bloglist";
+import PageTitle from "@/app/components/pagetitle";
 
 const UserPage = async ({ params }: { params: Promise<{ username: string }> }) => {
     const { username } = await params
@@ -15,7 +13,7 @@ const UserPage = async ({ params }: { params: Promise<{ username: string }> }) =
 
     return (
         <div>
-            <h2>{user.username}</h2>
+            <PageTitle>{user.username}</PageTitle>
             <p>{user.name}</p>
             <BlogList blogs={user.blogs} />
         </div>

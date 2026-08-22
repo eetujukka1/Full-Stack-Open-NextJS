@@ -2,6 +2,8 @@ import { notFound } from "next/navigation"
 import { getBlogById } from "../../services/blogs"
 import Link from "next/link";
 import {likeBlog} from "@/app/actions/blogs";
+import PageTitle from "@/app/components/pagetitle";
+import Button from "@/app/components/button";
 
 const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params
@@ -12,13 +14,19 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     }
 
     return (
-        <div>
-            <h2>{blog.title}</h2>
-            <p>{blog.author}</p>
-            <Link href={blog.url}>{blog.url}</Link>
-            <form action={likeBlog}>
+        <div className="max-w-2xl">
+            <PageTitle>{blog.title}</PageTitle>
+            <div className="space-y-4">
+                <p className="text-sm font-medium text-gray-600">
+                    by {blog.author}
+                </p>
+                <Link className="break-words text-blue-600 hover:underline" href={blog.url}>
+                    {blog.url}
+                </Link>
+            </div>
+            <form className="mt-6" action={likeBlog}>
                 <input type="hidden" name="id" value={blog.id} />
-                <button type="submit">({blog.likes} likes)</button>
+                <Button type="submit">{blog.likes} likes</Button>
             </form>
         </div>
     )

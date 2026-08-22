@@ -1,8 +1,10 @@
+import PageTitle from "@/app/components/pagetitle"
+
 const Home = () => {
   return (
       <div>
         <div>
-          <h2>Blog list - home</h2>
+          <PageTitle>Blog list - home</PageTitle>
         </div>
       </div>
   )

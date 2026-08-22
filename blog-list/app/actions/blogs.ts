@@ -1,6 +1,5 @@
 "use server"
 
-import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import {addBlog, like} from "../services/blogs"
 import {auth} from "@/auth";
@@ -13,6 +12,11 @@ type BlogFormValues = {
 
 type CreateBlogState = {
     error: string
+    notification?: {
+        message: string
+        type: "success" | "error"
+    }
+    redirectTo?: string
     values?: BlogFormValues
 }
 
@@ -22,7 +26,10 @@ export const createBlog = async (
 ): Promise<CreateBlogState> => {
     const session = await auth()
     if (!session) {
-        redirect("/login")
+        return {
+            error: "You must be logged in to create a blog",
+            redirectTo: "/login",
+        }
     }
     const title = formData.get("title") as string
     const author = formData.get("author") as string
@@ -30,19 +37,29 @@ export const createBlog = async (
     const values = { title, author, url }
 
     if (!title || title.length < 5) {
-        return { error: "Blog title must be at least 5 characters long", values }
+        const message = "Blog title must be at least 5 characters long"
+        return { error: message, values }
     }
     if (!author || author.length < 5) {
-        return { error: "Blog author must be at least 5 characters long", values }
+        const message = "Blog author must be at least 5 characters long"
+        return { error: message, values }
     }
     if (!url || url.length < 5) {
-        return { error: "Blog URL must be at least 5 characters long", values }
+        const message = "Blog URL must be at least 5 characters long"
+        return { error: message, values }
     }
     const likes = 0
     await addBlog(title, author, url, likes)
 
     revalidatePath("/blogs")
-    redirect("/blogs")
+    return {
+        error: "",
+        notification: {
+            message: `Created blog "${title}"`,
+            type: "success",
+        },
+        redirectTo: "/blogs",
+    }
 }
 
 export const likeBlog = async (formData: FormData) => {

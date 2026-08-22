@@ -2,18 +2,21 @@
 
 import { registerUser } from "../actions/users"
 import { useActionState } from "react"
+import PageTitle from "@/app/components/pagetitle"
+import FormInput from "@/app/components/forminput"
+import Button from "@/app/components/button"
 
 export default function RegisterPage() {
     const [state, formAction] = useActionState(registerUser, { error: "" })
 
     return (
         <div>
-            <h2>Register</h2>
-            <form action={formAction}>
+            <PageTitle>Register</PageTitle>
+            <form className="max-w-md space-y-4" action={formAction}>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         Username
-                        <input
+                        <FormInput
                             type="text"
                             name="username"
                             required
@@ -22,9 +25,9 @@ export default function RegisterPage() {
                     </label>
                 </div>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         Name
-                        <input
+                        <FormInput
                             type="text"
                             name="name"
                             required
@@ -33,23 +36,23 @@ export default function RegisterPage() {
                     </label>
                 </div>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         Password
-                        <input type="password" name="password" required />
+                        <FormInput type="password" name="password" required />
                     </label>
                 </div>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         Confirm password
-                        <input
+                        <FormInput
                             type="password"
                             name="passwordConfirm"
                             required
                         />
                     </label>
                 </div>
-                <button type="submit">Register</button>
-                {state.error && <p style={{ color: "red" }}>{state.error}</p>}
+                <Button type="submit">Register</Button>
+                {state.error && <p className="text-red-600">{state.error}</p>}
             </form>
         </div>
     )

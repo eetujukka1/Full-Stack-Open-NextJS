@@ -1,5 +1,8 @@
 import { getBlogs } from "../services/blogs"
 import BlogList from "../components/bloglist"
+import PageTitle from "../components/pagetitle"
+import FormInput from "../components/forminput"
+import Button from "../components/button"
 
 const Blogs = async ({
     searchParams,
@@ -21,13 +24,13 @@ const Blogs = async ({
 
     return (
         <div>
-            <h2>Blogs</h2>
-            <form action="/blogs">
-                <label>
+            <PageTitle>Blogs</PageTitle>
+            <form className="mx-auto mb-6 flex max-w-md items-end gap-2" action="/blogs">
+                <label className="flex-1 text-sm font-medium text-gray-700">
                     Search
-                    <input type="text" name="filter" defaultValue={search} />
+                    <FormInput type="text" name="filter" defaultValue={search} />
                 </label>
-                <button type="submit">Search</button>
+                <Button type="submit">Search</Button>
             </form>
             <BlogList blogs={blogs} />
         </div>

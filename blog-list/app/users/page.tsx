@@ -1,12 +1,13 @@
 import Link from "next/link"
 import { getUsers } from "../services/users"
+import PageTitle from "../components/pagetitle"
 
 const Users = async () => {
     const users = await getUsers()
 
     return (
         <div>
-            <h2>Users</h2>
+            <PageTitle>Users</PageTitle>
             <ul>
                 {users.map((user) => (
                     <li key={user.id}>

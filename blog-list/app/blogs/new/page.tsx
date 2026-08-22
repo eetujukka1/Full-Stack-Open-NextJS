@@ -1,17 +1,35 @@
 "use client"
 import { createBlog } from "@/app/actions/blogs";
-import {useActionState} from "react";
+import {useActionState, useEffect} from "react";
+import {useRouter} from "next/navigation";
+import {useNotification} from "@/app/components/notificationcontext";
+import PageTitle from "@/app/components/pagetitle";
+import FormInput from "@/app/components/forminput";
+import Button from "@/app/components/button";
 
 const NewBlog = () => {
+    const router = useRouter()
+    const { showNotification } = useNotification()
     const [state, formAction] = useActionState(createBlog, { error: "" })
+
+    useEffect(() => {
+        if (state.notification) {
+            showNotification(state.notification.message, state.notification.type)
+        }
+
+        if (state.redirectTo) {
+            router.push(state.redirectTo)
+        }
+    }, [router, showNotification, state.notification, state.redirectTo])
+
     return (
         <div>
-            <h2>Create a new blog</h2>
-            <form action={formAction}>
+            <PageTitle>Create a new blog</PageTitle>
+            <form className="max-w-md space-y-4" action={formAction}>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         Title
-                        <input
+                        <FormInput
                             type="text"
                             name="title"
                             required
@@ -20,9 +38,9 @@ const NewBlog = () => {
                     </label>
                 </div>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         Author
-                        <input
+                        <FormInput
                             type="text"
                             name="author"
                             required
@@ -31,9 +49,9 @@ const NewBlog = () => {
                     </label>
                 </div>
                 <div>
-                    <label>
+                    <label className="block text-sm font-medium text-gray-700">
                         URL
-                        <input
+                        <FormInput
                             type="text"
                             name="url"
                             required
@@ -41,8 +59,8 @@ const NewBlog = () => {
                         />
                     </label>
                 </div>
-                <button type="submit">Create</button>
-                {state.error && <p style={{ color: "red" }}>{state.error}</p>}
+                <Button type="submit">Create</Button>
+                {state.error && <p className="text-red-600">{state.error}</p>}
             </form>
         </div>
     )
