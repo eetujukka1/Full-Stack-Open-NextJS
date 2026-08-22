@@ -1,5 +1,5 @@
-import { db } from "../../db"
-import {blogs, users} from "../../db/schema"
+import { db } from "@/db"
+import {blogs, users} from "@/db/schema"
 import {eq} from "drizzle-orm";
 
 export const getUsers = async () => {

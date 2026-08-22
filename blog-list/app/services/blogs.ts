@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm"
-import { db } from "../../db"
-import { blogs } from "../../db/schema"
+import { db } from "@/db"
+import { blogs } from "@/db/schema"
+import {getCurrentUser} from "@/app/services/session";
 
 export const getBlogs = async () => {
     return db.query.blogs.findMany()
@@ -12,8 +13,11 @@ export const addBlog = async (
     url: string,
     likes: number,
 ) => {
-    // ToDo: Remove the placeholder userId
-    await db.insert(blogs).values({ title, author, url, likes, userId: 1 })
+    const user = await getCurrentUser()
+    if (!user) {
+        throw new Error("Not logged in")
+    }
+    await db.insert(blogs).values({ title, author, url, likes, userId: user.id })
 }
 
 export const getBlogById = (id: number) => {

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import type { blogs as schemaBlogs } from "../../db/schema"
+import type { blogs as schemaBlogs } from "@/db/schema"
 
 interface BlogListProps {
     blogs: Array<typeof schemaBlogs.$inferSelect>
